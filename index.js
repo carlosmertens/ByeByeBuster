@@ -14,7 +14,7 @@ mongoose
 
 // Create Schema for a new Collection
 const genreSchema = new mongoose.Schema({
-  name: String,
+  name: { type: String, required: true },
   isActive: Boolean,
   date: { type: Date, default: Date.now },
 });
@@ -24,11 +24,16 @@ const Genre = mongoose.model('Genre', genreSchema);
 // Function to create a new membre of the Collection
 async function createGenre() {
   const genre = new Genre({
-    name: 'Thriller',
+    // name: 'Animate',
     isActive: true,
   });
-  const result = await genre.save();
-  console.log(result);
+
+  try {
+    const result = await genre.save();
+    console.log(result);
+  } catch (error) {
+    console.log(error.message);
+  }
 }
 // createGenre();
 
@@ -57,6 +62,8 @@ async function updateGenre(id) {
 async function deleteGenre(id) {
   return await Genre.findByIdAndDelete(id);
 }
+
+// deleteGenre('65d4a5184fd006a65e39f85d');
 
 // Middlewares
 app.use(express.urlencoded({ extended: true }));
