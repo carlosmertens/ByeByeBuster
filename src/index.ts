@@ -1,6 +1,7 @@
 import express from 'express';
+import cors from 'cors';
 import mongoose from 'mongoose';
-import genres from './routes/genres.js';
+import { genreRouter } from './routes/genres';
 
 const app = express();
 
@@ -11,11 +12,19 @@ mongoose
   .catch(error => console.error(error));
 
 // Middlewares
+app.use(
+  cors({
+    credentials: true,
+  })
+);
+// app.use(compression());
+// app.use(cookieParser());
+// app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/genres', genres);
+app.use('/api/genres', genreRouter);
 
 // Port Listener
-const port = process.env.PORT || 8000;
-app.listen(port, () => console.log(`>> Server ready: port ${port}`));
+const port = process.env.PORT || 8080;
+app.listen(port, () => console.log(`>> Server ready on port ${port}`));
