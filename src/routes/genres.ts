@@ -23,38 +23,38 @@ genreRouter
     let genre = new GenreModel({ name: req.body.name });
     genre = await genre.save();
 
-    res.send(genre);
+    res.status(201).send(genre);
   });
 
-// genreRouter
-//   .route('/:id')
-//   .get(async (req, res) => {
-//     const genre = await Genre.findById(req.params.id);
-//     if (!genre) return res.status(404).send('Genre not found!');
+genreRouter
+  .route('/:id')
+  .get(async (req, res) => {
+    const genre = await GenreModel.findById(req.params.id);
+    if (!genre) return res.status(404).send('Genre not found!');
 
-//     res.send(genre);
-//   })
-//   .put(async (req, res) => {
-//     const { error } = validateGenre(req.body);
-//     if (error) return res.status(400).send(error.message);
+    res.send(genre);
+  })
+  .put(async (req, res) => {
+    const { error } = validateGenre(req.body);
+    if (error) return res.status(400).send(error.message);
 
-//     const genre = await Genre.findByIdAndUpdate(
-//       req.params.id,
-//       {
-//         name: req.body.name,
-//       },
-//       { new: true }
-//     );
-//     if (!genre) return res.status(404).send('Genre not found!');
+    const genre = await GenreModel.findByIdAndUpdate(
+      req.params.id,
+      {
+        name: req.body.name,
+      },
+      { new: true }
+    );
+    if (!genre) return res.status(404).send('Genre not found!');
 
-//     res.send(genre);
-//   })
-//   .delete(async (req, res) => {
-//     const genre = await Genre.findByIdAndDelete(req.params.id);
-//     if (!genre) return res.status(404).send('Genre not found!');
+    res.send(genre);
+  })
+  .delete(async (req, res) => {
+    const genre = await GenreModel.findByIdAndDelete(req.params.id);
+    if (!genre) return res.status(404).send('Genre not found!');
 
-//     res.send(genre);
-//   });
+    res.send(genre);
+  });
 
 function validateGenre(genre: IGenre) {
   const schema = Joi.object({
