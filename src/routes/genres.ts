@@ -29,31 +29,37 @@ genreRouter
 genreRouter
   .route('/:id')
   .get(async (req, res) => {
-    const genre = await GenreModel.findById(req.params.id);
-    if (!genre) return res.status(404).send('Genre not found!');
-
-    res.send(genre);
+    try {
+      const genre = await GenreModel.findById(req.params.id);
+      res.send(genre);
+    } catch (err) {
+      if (err) return res.status(404).send('Genre not found!');
+    }
   })
   .put(async (req, res) => {
     const { error } = validateGenre(req.body);
     if (error) return res.status(400).send(error.message);
 
-    const genre = await GenreModel.findByIdAndUpdate(
-      req.params.id,
-      {
-        name: req.body.name,
-      },
-      { new: true }
-    );
-    if (!genre) return res.status(404).send('Genre not found!');
-
-    res.send(genre);
+    try {
+      const genre = await GenreModel.findByIdAndUpdate(
+        req.params.id,
+        {
+          name: req.body.name,
+        },
+        { new: true }
+      );
+      res.send(genre);
+    } catch (err) {
+      if (err) return res.status(404).send('Genre not found!');
+    }
   })
   .delete(async (req, res) => {
-    const genre = await GenreModel.findByIdAndDelete(req.params.id);
-    if (!genre) return res.status(404).send('Genre not found!');
-
-    res.send(genre);
+    try {
+      const genre = await GenreModel.findByIdAndDelete(req.params.id);
+      res.send(genre);
+    } catch (err) {
+      if (err) return res.status(404).send('Genre not found!');
+    }
   });
 
 function validateGenre(genre: IGenre) {

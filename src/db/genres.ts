@@ -8,5 +8,5 @@ const genreSchema = new mongoose.Schema<IGenre>({
   date: { type: Date, default: Date.now },
 });
 
-// Export model created from the schema
+// Compile and export schema into a model
 export const GenreModel = mongoose.model<IGenre>('Genre', genreSchema);
