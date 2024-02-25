@@ -12,14 +12,7 @@ mongoose
   .catch(error => console.error(error));
 
 // Middlewares
-app.use(
-  cors({
-    credentials: true,
-  })
-);
-// app.use(compression());
-// app.use(cookieParser());
-// app.use(bodyParser.json());
+// app.use(cors());
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
