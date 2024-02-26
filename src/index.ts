@@ -8,8 +8,10 @@ import { customersRouter } from './routes/customers';
 const app = express();
 
 // Initialize Database
+
+const uri = `mongodb+srv://${process.env.ATLAS_USER}:${process.env.ATLAS_PASS}@cluster0.bznfdet.mongodb.net/bye_bye_buster?retryWrites=true&w=majority&appName=Cluster0`;
 mongoose
-  .connect('mongodb://localhost:27017/byeByeBuster')
+  .connect(uri)
   .then(() => console.log('connected to MongoDB...'))
   .catch(error => console.error(error));
 
