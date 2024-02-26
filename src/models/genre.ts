@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
-import { IGenre } from '../routes/genres';
+import Joi from 'joi';
+import { IGenre } from 'dtos';
 
 // Create Schema for a new Collection
 const genreSchema = new mongoose.Schema<IGenre>({
@@ -10,3 +11,12 @@ const genreSchema = new mongoose.Schema<IGenre>({
 
 // Compile and export schema into a model
 export const GenreModel = mongoose.model<IGenre>('Genre', genreSchema);
+
+// Function to validate Genre schema
+export function validateGenre(genre: IGenre) {
+  const schema = Joi.object({
+    name: Joi.string().min(3).max(25).required(),
+  });
+
+  return schema.validate(genre);
+}

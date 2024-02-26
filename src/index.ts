@@ -1,7 +1,9 @@
 import express from 'express';
-import cors from 'cors';
+// import cors from 'cors';
 import mongoose from 'mongoose';
-import { genreRouter } from './routes/genres';
+import 'dotenv/config';
+import { genresRouter } from './routes/genres';
+import { customersRouter } from './routes/customers';
 
 const app = express();
 
@@ -16,8 +18,9 @@ mongoose
 app.use(express.urlencoded({ extended: true }));
 
 // Routes
-app.use('/api/genres', genreRouter);
+app.use('/api/genres', genresRouter);
+app.use('/api/customers', customersRouter);
 
 // Port Listener
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 8081;
 app.listen(port, () => console.log(`>> Server ready on port ${port}`));

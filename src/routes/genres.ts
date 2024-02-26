@@ -1,39 +1,37 @@
 import { Router } from 'express';
-import Joi from 'joi';
-import { GenreModel } from '../db/genres';
+import { GenreModel, validateGenre } from '../models/genre';
 
-interface IGenre {
-  name: String;
-  isActive: Boolean;
-  date: Date;
-}
+export const genresRouter = Router();
 
-const genreRouter = Router();
+// MongoDB Atlas
+// mertenscarlos3000
+// D3ZBNztXMeiaeez3
 
-genreRouter.get('/', async (req, res) => {
-  try {
-    const genres = await GenreModel.find().sort('name');
-    res.send(genres);
-  } catch (err) {
-    console.log(err);
-    res.status(500).send('Could not connect with database!');
-  }
-});
+genresRouter
+  .route('/')
+  .get(async (req, res) => {
+    try {
+      const genres = await GenreModel.find().sort('name');
+      res.send(genres);
+    } catch (err) {
+      console.log(err);
+      res.status(500).send('Could not connect with database!');
+    }
+  })
+  .post(async (req, res) => {
+    const { error } = validateGenre(req.body);
+    if (error) return res.status(400).send(error.message);
 
-genreRouter.post('/', async (req, res) => {
-  const { error } = validateGenre(req.body);
-  if (error) return res.status(400).send(error.message);
+    try {
+      let genre = new GenreModel({ name: req.body.name });
+      genre = await genre.save();
+      res.status(201).send(genre);
+    } catch (err) {
+      res.status(500).send(err.message);
+    }
+  });
 
-  try {
-    let genre = new GenreModel({ name: req.body.name });
-    genre = await genre.save();
-    res.status(201).send(genre);
-  } catch (err) {
-    res.status(500).send(err.message);
-  }
-});
-
-genreRouter
+genresRouter
   .route('/:id')
   .get(async (req, res) => {
     try {
@@ -68,13 +66,3 @@ genreRouter
       res.status(404).send('Genre not found!');
     }
   });
-
-function validateGenre(genre: IGenre) {
-  const schema = Joi.object({
-    name: Joi.string().min(3).max(25).required(),
-  });
-
-  return schema.validate(genre);
-}
-
-export { IGenre, genreRouter };
