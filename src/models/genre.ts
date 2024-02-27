@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import Joi from 'joi';
-import { IGenre } from 'dtos';
+import { IGenre } from '../interfaces';
 
 // Create Schema for a new Collection
 const genreSchema = new mongoose.Schema<IGenre>({
