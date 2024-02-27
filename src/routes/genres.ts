@@ -3,10 +3,6 @@ import { GenreModel, validateGenre } from '../models/genre';
 
 export const genresRouter = Router();
 
-// MongoDB Atlas
-// mertenscarlos3000
-// D3ZBNztXMeiaeez3
-
 genresRouter
   .route('/')
   .get(async (req, res) => {
@@ -27,6 +23,7 @@ genresRouter
       genre = await genre.save();
       res.status(201).send(genre);
     } catch (err) {
+      console.log(err.message);
       res.status(500).send(err.message);
     }
   });

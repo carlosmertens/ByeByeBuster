@@ -5,8 +5,8 @@ export interface IGenre {
 }
 
 export interface ICustomer {
-  firstName: String;
-  lastName: String;
-  isActive: Boolean;
+  name: String;
+  phone: String;
+  isGold: Boolean;
   createdOn: Date;
 }
