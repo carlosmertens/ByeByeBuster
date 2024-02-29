@@ -1,13 +1,14 @@
 import { RequestHandler } from 'express';
 import { CustomerModel, validateCustomer } from '../models/Customer';
+import { log } from '../logs';
 
 const getAllCustomers: RequestHandler = async (req, res) => {
   try {
-    const customers = await CustomerModel.find().sort('name');
-    res.send(customers);
+    const allCustomers = await CustomerModel.find().sort('name');
+    res.send(allCustomers);
   } catch (err) {
-    console.log(err);
-    res.status(500).send('Could not connect to Atlas database!');
+    log.error(err);
+    res.status(500).send({ message: 'Internal Server Error' });
   }
 };
 
@@ -20,8 +21,8 @@ const createNewCustomer: RequestHandler = async (req, res) => {
     customer = await customer.save();
     res.status(201).send(customer);
   } catch (err) {
-    console.log(err.message);
-    res.status(500).send('Could not connect to Atlas database!');
+    log.error(err);
+    res.status(500).send({ message: 'Internal Server Error' });
   }
 };
 
@@ -30,8 +31,8 @@ const getCustomerById: RequestHandler = async (req, res) => {
     const customer = await CustomerModel.findById(req.params.id);
     res.send(customer);
   } catch (err) {
-    console.log(err.message);
-    res.status(404).send('Customer not found');
+    log.error(err);
+    res.status(404).send({ message: 'Customer Not Found' });
   }
 };
 
@@ -47,8 +48,8 @@ const updateCustomerById: RequestHandler = async (req, res) => {
     );
     res.send(customer);
   } catch (err) {
-    console.log(err.message);
-    res.status(404).send('Customer not found!');
+    log.error(err);
+    res.status(404).send({ message: 'Customer Not Found' });
   }
 };
 
@@ -57,8 +58,8 @@ const deleteCustomerById: RequestHandler = async (req, res) => {
     const customer = await CustomerModel.findByIdAndDelete(req.params.id);
     res.send(customer);
   } catch (err) {
-    console.log(err.message);
-    res.status(404).send('Customer not found!');
+    log.error(err);
+    res.status(404).send({ message: 'Customer Not Found' });
   }
 };
 

@@ -1,27 +1,31 @@
 import 'dotenv/config';
+import debug from 'debug';
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 import { genresRouter } from './routes/genres';
 import { customersRouter } from './routes/customers';
+import { log } from './logs';
+import { logger } from './middlewares/logger';
 
 // Initialize App
 const app = express();
 const port = process.env.PORT || 8081;
 
-// Initialize Database
+// Initialize Database connection
 mongoose
-  .connect(process.env.ATLAS_URI)
-  .then(() => console.log('connected to MongoDB...'))
+  .connect(process.env.ATLAS_URI as string)
+  .then(() => log.db('MongoDB connected'))
   .catch(error => console.error(error));
 
 // Middlewares
 app.use(cors());
 app.use(express.urlencoded({ extended: true }));
+app.use(logger);
 
 // Routes
 app.use('/api/genres', genresRouter);
 app.use('/api/customers', customersRouter);
 
 // Port Listener
-app.listen(port, () => console.log(`>> Server ready on port ${port}`));
+app.listen(port, () => log.server(`Ready and listening on port ${port}`));
