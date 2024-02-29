@@ -22,7 +22,7 @@ const getAllGenres = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(500).send({ message: 'Internal Server Error' });
     }
 });
-const createNewGenre = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const postNewGenre = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { error } = (0, Genre_1.validateGenre)(req.body);
     if (error) {
         logs_1.log.error(error);
@@ -48,7 +48,20 @@ const getGenreById = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(404).send({ message: 'Genre Not Found' });
     }
 });
-const updateGenreById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+function patchGenreById(req, res) {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            // 1. Retrieve requested id on db
+            // 2 Modify any value changes
+            // 3. Save modified genre
+        }
+        catch (err) {
+            logs_1.log.error(err);
+            res.status(404).send({ message: 'Genre Not Found' });
+        }
+    });
+}
+const putGenreById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { error } = (0, Genre_1.validateGenre)(req.body);
     if (error)
         return res.status(400).send(error.message);
@@ -75,8 +88,9 @@ const deleteGenreById = (req, res) => __awaiter(void 0, void 0, void 0, function
 });
 exports.controller = {
     getAllGenres,
-    createNewGenre,
+    postNewGenre,
     getGenreById,
-    updateGenreById,
+    patchGenreById,
+    putGenreById,
     deleteGenreById,
 };

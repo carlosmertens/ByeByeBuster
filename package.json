@@ -2,11 +2,11 @@
   "name": "byebyebuster",
   "version": "1.0.0",
   "description": "Blockbuster backend simulation",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "build": "rimraf dist && npx tsc",
-    "start": "node dist/index.js",
-    "dev": "tsc -w & nodemon dist/index.js"
+    "start": "node dist/server.js",
+    "dev": "tsc -w & nodemon dist/server.js"
   },
   "author": "Carlos Mertens <mertenscarlos3000.gmail.com>",
   "license": "MIT",

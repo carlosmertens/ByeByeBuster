@@ -1,4 +1,4 @@
-import { RequestHandler } from 'express';
+import { RequestHandler, Request, Response } from 'express';
 import { GenreModel, validateGenre } from '../models/Genre';
 import { log } from '../logs';
 
@@ -12,7 +12,7 @@ const getAllGenres: RequestHandler = async (req, res) => {
   }
 };
 
-const createNewGenre: RequestHandler = async (req, res) => {
+const postNewGenre: RequestHandler = async (req, res) => {
   const { error } = validateGenre(req.body);
   if (error) {
     log.error(error);
@@ -39,7 +39,18 @@ const getGenreById: RequestHandler = async (req, res) => {
   }
 };
 
-const updateGenreById: RequestHandler = async (req, res) => {
+async function patchGenreById(req: Request, res: Response) {
+  try {
+    // 1. Retrieve requested id on db
+    // 2 Modify any value changes
+    // 3. Save modified genre
+  } catch (err) {
+    log.error(err);
+    res.status(404).send({ message: 'Genre Not Found' });
+  }
+}
+
+const putGenreById: RequestHandler = async (req, res) => {
   const { error } = validateGenre(req.body);
   if (error) return res.status(400).send(error.message);
 
@@ -70,8 +81,9 @@ const deleteGenreById: RequestHandler = async (req, res) => {
 
 export const controller = {
   getAllGenres,
-  createNewGenre,
+  postNewGenre,
   getGenreById,
-  updateGenreById,
+  patchGenreById,
+  putGenreById,
   deleteGenreById,
 };

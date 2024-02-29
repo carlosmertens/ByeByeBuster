@@ -6,10 +6,11 @@ export const genresRouter = Router();
 genresRouter
   .route('/')
   .get(controller.getAllGenres)
-  .post(controller.createNewGenre);
+  .post(controller.postNewGenre);
 
 genresRouter
   .route('/:id')
   .get(controller.getGenreById)
-  .put(controller.updateGenreById)
+  .patch(controller.patchGenreById)
+  .put(controller.putGenreById)
   .delete(controller.deleteGenreById);

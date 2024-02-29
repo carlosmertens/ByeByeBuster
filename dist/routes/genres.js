@@ -7,9 +7,10 @@ exports.genresRouter = (0, express_1.Router)();
 exports.genresRouter
     .route('/')
     .get(genres_1.controller.getAllGenres)
-    .post(genres_1.controller.createNewGenre);
+    .post(genres_1.controller.postNewGenre);
 exports.genresRouter
     .route('/:id')
     .get(genres_1.controller.getGenreById)
-    .put(genres_1.controller.updateGenreById)
+    .patch(genres_1.controller.patchGenreById)
+    .put(genres_1.controller.putGenreById)
     .delete(genres_1.controller.deleteGenreById);
