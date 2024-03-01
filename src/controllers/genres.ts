@@ -39,7 +39,7 @@ const getGenreById: RequestHandler = async (req, res) => {
   }
 };
 
-async function patchGenreById(req: Request, res: Response) {
+const patchGenreById: RequestHandler = (req, res) => {
   try {
     // 1. Retrieve requested id on db
     // 2 Modify any value changes
@@ -48,7 +48,7 @@ async function patchGenreById(req: Request, res: Response) {
     log.error(err);
     res.status(404).send({ message: 'Genre Not Found' });
   }
-}
+};
 
 const putGenreById: RequestHandler = async (req, res) => {
   const { error } = validateGenre(req.body);

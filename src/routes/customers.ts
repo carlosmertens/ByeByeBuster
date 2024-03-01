@@ -6,10 +6,11 @@ export const customersRouter = Router();
 customersRouter
   .route('/')
   .get(controller.getAllCustomers)
-  .post(controller.createNewCustomer);
+  .post(controller.postNewCustomer);
 
 customersRouter
   .route('/:id')
   .get(controller.getCustomerById)
-  .put(controller.updateCustomerById)
+  .patch(controller.patchCustomerById)
+  .put(controller.putCustomerById)
   .delete(controller.deleteCustomerById);
