@@ -10,3 +10,9 @@ export interface ICustomer {
   isGold: Boolean;
   createdOn: Date;
 }
+export interface IMovie {
+  title: String;
+  genre: IGenre;
+  numberInStock: Number;
+  dailyRentalRate: Number;
+}
