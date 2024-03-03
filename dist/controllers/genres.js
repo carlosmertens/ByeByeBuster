@@ -48,19 +48,17 @@ const getGenreById = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         res.status(404).send({ message: 'Genre Not Found' });
     }
 });
-function patchGenreById(req, res) {
-    return __awaiter(this, void 0, void 0, function* () {
-        try {
-            // 1. Retrieve requested id on db
-            // 2 Modify any value changes
-            // 3. Save modified genre
-        }
-        catch (err) {
-            logs_1.log.error(err);
-            res.status(404).send({ message: 'Genre Not Found' });
-        }
-    });
-}
+const patchGenreById = (req, res) => {
+    try {
+        // 1. Retrieve requested id on db
+        // 2 Modify any value changes
+        // 3. Save modified genre
+    }
+    catch (err) {
+        logs_1.log.error(err);
+        res.status(404).send({ message: 'Genre Not Found' });
+    }
+};
 const putGenreById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { error } = (0, Genre_1.validateGenre)(req.body);
     if (error)

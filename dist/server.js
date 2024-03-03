@@ -7,10 +7,11 @@ require("dotenv/config");
 const express_1 = __importDefault(require("express"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
-const genres_1 = require("./routes/genres");
-const customers_1 = require("./routes/customers");
 const logs_1 = require("./logs");
 const logger_1 = require("./middlewares/logger");
+const genres_1 = require("./routes/genres");
+const customers_1 = require("./routes/customers");
+const movies_1 = require("./routes/movies");
 // Initialize App
 const app = (0, express_1.default)();
 const port = process.env.PORT || 8081;
@@ -27,5 +28,6 @@ app.use(logger_1.logger);
 // Routes
 app.use('/api/genres', genres_1.genresRouter);
 app.use('/api/customers', customers_1.customersRouter);
+app.use('/api/movies', movies_1.moviesRouter);
 // Port Listener
 app.listen(port, () => logs_1.log.server(`Ready and listening on port ${port}`));

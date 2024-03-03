@@ -1,4 +1,4 @@
-import { RequestHandler, Request, Response } from 'express';
+import { RequestHandler } from 'express';
 import { GenreModel, validateGenre } from '../models/Genre';
 import { log } from '../logs';
 

@@ -2,10 +2,11 @@ import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import { genresRouter } from './routes/genres';
-import { customersRouter } from './routes/customers';
 import { log } from './logs';
 import { logger } from './middlewares/logger';
+import { genresRouter } from './routes/genres';
+import { customersRouter } from './routes/customers';
+import { moviesRouter } from './routes/movies';
 
 // Initialize App
 const app = express();
@@ -26,6 +27,6 @@ app.use(logger);
 // Routes
 app.use('/api/genres', genresRouter);
 app.use('/api/customers', customersRouter);
-
+app.use('/api/movies', moviesRouter);
 // Port Listener
 app.listen(port, () => log.server(`Ready and listening on port ${port}`));
