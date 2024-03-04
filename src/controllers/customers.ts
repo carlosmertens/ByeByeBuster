@@ -43,7 +43,7 @@ async function patchCustomerById(req: Request, res: Response) {
     // 3. Save modified genre
   } catch (err) {
     log.error(err);
-    res.status(404).send({ message: 'Genre Not Found' });
+    res.status(404).send({ message: 'Customer Not Found' });
   }
 }
 

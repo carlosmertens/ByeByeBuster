@@ -4,7 +4,13 @@ import { IGenre } from '../interfaces';
 
 // Create Schema for a new Collection
 export const genreSchema = new mongoose.Schema<IGenre>({
-  name: { type: String, required: true, minLength: 3, maxLength: 25 },
+  name: {
+    type: String,
+    trim: true,
+    required: true,
+    minLength: 3,
+    maxLength: 25,
+  },
   isActive: { type: Boolean, default: true },
   date: { type: Date, default: Date.now },
 });

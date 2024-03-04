@@ -61,7 +61,7 @@ function patchCustomerById(req, res) {
         }
         catch (err) {
             logs_1.log.error(err);
-            res.status(404).send({ message: 'Genre Not Found' });
+            res.status(404).send({ message: 'Customer Not Found' });
         }
     });
 }

@@ -3,7 +3,7 @@ import { IMovie } from '../interfaces';
 import { genreSchema } from './Genre';
 import mongoose from 'mongoose';
 
-const MoviesModel = mongoose.model(
+const MovieModel = mongoose.model(
   'movies',
   new mongoose.Schema<IMovie>({
     title: {
@@ -15,15 +15,19 @@ const MoviesModel = mongoose.model(
     },
     // genre: { type: mongoose.Schema.Types.ObjectId, ref: 'GenreModel' },
     genre: { type: genreSchema, required: true },
-    numberInStock: { type: Number, default: 0 },
-    dailyRentalRate: { type: Number, default: 0 },
+    numberInStock: { type: Number, min: 0, max: 50, default: 0 },
+    dailyRentalRate: { type: Number, min: 0, max: 50, default: 0 },
   })
 );
 
 function validateMovie(movie: IMovie) {
   const schema = Joi.object({
     title: Joi.string().min(1).max(50).required(),
+    // genre: Joi.isSchema(genreSchema),
+    genreId: Joi.string().required(),
   });
+
+  return schema.validate(movie);
 }
 
-export { MoviesModel, validateMovie };
+export { MovieModel, validateMovie };
