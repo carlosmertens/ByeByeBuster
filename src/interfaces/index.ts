@@ -1,18 +1,33 @@
 export interface IGenre {
-  name: String;
-  isActive: Boolean;
+  name: string;
+  isActive: boolean;
   date: Date;
 }
 
 export interface ICustomer {
-  name: String;
-  phone: String;
-  isGold: Boolean;
+  name: string;
+  phone: string;
+  isGold: boolean;
   createdOn: Date;
 }
 export interface IMovie {
-  title: String;
+  title: string;
   genre: IGenre;
-  numberInStock: Number;
-  dailyRentalRate: Number;
+  numberInStock: number;
+  dailyRentalRate: number;
+}
+
+export interface IRental {
+  customer: {
+    name: string;
+    phone: string;
+    isGold: boolean;
+  };
+  movie: {
+    title: string;
+    dailyRentalRate: number;
+  };
+  dateOut: Date;
+  dateReturned: Date;
+  rentalFee: number;
 }
