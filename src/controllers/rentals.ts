@@ -48,8 +48,9 @@ async function postNewRental(req: Request, res: Response) {
       },
     });
 
-    // TODO
+    // TODO:
     // Create a transaction to save rental and movie as a unit
+    // Look into fawn or mongoose transactions
     rental = await rental.save();
 
     movie.numberInStock--;

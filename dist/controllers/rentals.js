@@ -62,8 +62,9 @@ function postNewRental(req, res) {
                     dailyRentalRate: movie.dailyRentalRate,
                 },
             });
-            // TODO
+            // TODO:
             // Create a transaction to save rental and movie as a unit
+            // Look into fawn or mongoose transactions
             rental = yield rental.save();
             movie.numberInStock--;
             movie.save();

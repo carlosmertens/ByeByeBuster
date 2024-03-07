@@ -8,8 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.controller = void 0;
+const lodash_1 = __importDefault(require("lodash"));
+const bcrypt_1 = __importDefault(require("bcrypt"));
 const User_1 = require("../models/User");
 const logs_1 = require("../logs");
 function getAllUsers(req, res) {
@@ -32,9 +37,11 @@ function postNewUser(req, res) {
         let user = yield User_1.UserModel.findOne({ email: req.body.email });
         if (user)
             return res.status(400).send({ message: 'User already exists.' });
-        user = new User_1.UserModel(Object.assign({}, req.body));
+        user = new User_1.UserModel(lodash_1.default.pick(req.body, ['name', 'email', 'password']));
+        const salt = yield bcrypt_1.default.genSalt(10);
+        user.password = yield bcrypt_1.default.hash(user.password, salt);
         yield user.save();
-        res.send(user);
+        res.send(lodash_1.default.pick(user, ['_id', 'name', 'email']));
     });
 }
 exports.controller = { getAllUsers, postNewUser };

@@ -1,4 +1,6 @@
 import { Request, Response } from 'express';
+import _ from 'lodash';
+import bcrypt from 'bcrypt';
 import { UserModel, validateUser } from '../models/User';
 import { log } from '../logs';
 
@@ -19,10 +21,14 @@ async function postNewUser(req: Request, res: Response) {
   let user = await UserModel.findOne({ email: req.body.email });
   if (user) return res.status(400).send({ message: 'User already exists.' });
 
-  user = new UserModel({ ...req.body });
+  user = new UserModel(_.pick(req.body, ['name', 'email', 'password']));
+
+  const salt = await bcrypt.genSalt(10);
+  user.password = await bcrypt.hash(user.password, salt);
+
   await user.save();
 
-  res.send(user);
+  res.send(_.pick(user, ['_id', 'name', 'email']));
 }
 
 export const controller = { getAllUsers, postNewUser };

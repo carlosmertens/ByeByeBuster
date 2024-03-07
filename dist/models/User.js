@@ -15,14 +15,15 @@ const UserModel = mongoose_1.default.model('users', new mongoose_1.default.Schem
         minlength: 6,
         maxlength: 255,
     },
-    password: { type: String, required: true, minlength: 8, maxlength: 1024 },
+    password: { type: String, required: true, minlength: 4, maxlength: 1024 },
 }));
 exports.UserModel = UserModel;
 function validateUser(user) {
+    // TODO: Look into joi-password-complexity
     const schema = joi_1.default.object({
         name: joi_1.default.string().required().min(1).max(30),
         email: joi_1.default.string().required().email().min(6).max(50),
-        password: joi_1.default.string().required().min(8).max(50),
+        password: joi_1.default.string().required().min(4).max(25),
     });
     return schema.validate(user);
 }
