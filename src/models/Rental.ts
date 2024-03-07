@@ -59,8 +59,7 @@ const rentalSchema = new mongoose.Schema<IRental>({
 const RentalModel = mongoose.model('rental', rentalSchema);
 
 function validateRental(rental: { customerId: string; movieId: string }) {
-  // TODO
-  // Find a solution to check for objectId
+  // TODO: Find a solution to check for objectId - joi-objectid
   const schema = Joi.object({
     customerId: Joi.string().required(),
     movieId: Joi.string().required(),

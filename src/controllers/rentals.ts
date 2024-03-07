@@ -20,7 +20,7 @@ async function postNewRental(req: Request, res: Response) {
     const { error } = validateRental(req.body);
     if (error) return res.status(400).send(error.message);
 
-    // TODO: Refactor objectId validation
+    // TODO: Refactor objectId validation - joi-objectid
     if (!mongoose.Types.ObjectId.isValid(req.body.customerId))
       return res.status(400).send('Invalid customer.');
     const customer = await CustomerModel.findById(req.body.customerId);

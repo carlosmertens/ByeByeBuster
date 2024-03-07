@@ -36,7 +36,7 @@ function postNewRental(req, res) {
             const { error } = (0, Rental_1.validateRental)(req.body);
             if (error)
                 return res.status(400).send(error.message);
-            // TODO: Refactor objectId validation
+            // TODO: Refactor objectId validation - joi-objectid
             if (!mongoose_1.default.Types.ObjectId.isValid(req.body.customerId))
                 return res.status(400).send('Invalid customer.');
             const customer = yield Customer_1.CustomerModel.findById(req.body.customerId);
