@@ -1,8 +1,9 @@
 import { Request, Response } from 'express';
-import { log } from 'logs';
+import { log } from '../logs';
 import { RentalModel, validateRental } from '../models/Rental';
-import { CustomerModel, validateCustomer } from '../models/Customer';
-import { MovieModel, validateMovie } from '../models/Movie';
+import { CustomerModel } from '../models/Customer';
+import { MovieModel } from '../models/Movie';
+import mongoose from 'mongoose';
 
 async function getAllRentals(req: Request, res: Response) {
   try {
@@ -19,9 +20,15 @@ async function postNewRental(req: Request, res: Response) {
     const { error } = validateRental(req.body);
     if (error) return res.status(400).send(error.message);
 
+    // TODO: Refactor objectId validation
+    if (!mongoose.Types.ObjectId.isValid(req.body.customerId))
+      return res.status(400).send('Invalid customer.');
     const customer = await CustomerModel.findById(req.body.customerId);
     if (!customer) return res.status(400).send('Invalid customer.');
 
+    // TODO: Refactor objectId validation
+    if (!mongoose.Types.ObjectId.isValid(req.body.movieId))
+      return res.status(400).send('Invalid movie.');
     const movie = await MovieModel.findById(req.body.movieId);
     if (!movie) return res.status(400).send('Invalid movie.');
 
@@ -34,12 +41,15 @@ async function postNewRental(req: Request, res: Response) {
         name: customer.name,
         phone: customer.phone,
       },
-      mvie: {
+      movie: {
         _id: movie._id,
         title: movie.title,
         dailyRentalRate: movie.dailyRentalRate,
       },
     });
+
+    // TODO
+    // Create a transaction to save rental and movie as a unit
     rental = await rental.save();
 
     movie.numberInStock--;

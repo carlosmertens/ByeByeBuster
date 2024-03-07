@@ -6,15 +6,14 @@ import mongoose from 'mongoose';
 const movieSchema = new mongoose.Schema<IMovie>({
   title: {
     type: String,
+    required: true,
     trim: true,
     minlength: 1,
     maxlength: 50,
-    required: true,
   },
-  // genre: { type: mongoose.Schema.Types.ObjectId, ref: 'GenreModel' },
   genre: { type: genreSchema, required: true },
   numberInStock: { type: Number, min: 0, max: 50, default: 10 },
-  dailyRentalRate: { type: Number, min: 0, max: 50, default: 0 },
+  dailyRentalRate: { type: Number, min: 0, max: 50, default: 20 },
 });
 
 const MovieModel = mongoose.model('movies', movieSchema);

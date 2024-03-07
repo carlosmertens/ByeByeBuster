@@ -7,6 +7,7 @@ import { logger } from './middlewares/logger';
 import { genresRouter } from './routes/genres';
 import { customersRouter } from './routes/customers';
 import { moviesRouter } from './routes/movies';
+import { rentalsRouter } from './routes/rentals';
 
 // Initialize App
 const app = express();
@@ -28,5 +29,6 @@ app.use(logger);
 app.use('/api/genres', genresRouter);
 app.use('/api/customers', customersRouter);
 app.use('/api/movies', moviesRouter);
+app.use('/api/rentals', rentalsRouter);
 // Port Listener
 app.listen(port, () => log.server(`Ready and listening on port ${port}`));

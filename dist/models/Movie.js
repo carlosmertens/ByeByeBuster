@@ -7,19 +7,19 @@ exports.validateMovie = exports.MovieModel = void 0;
 const joi_1 = __importDefault(require("joi"));
 const Genre_1 = require("./Genre");
 const mongoose_1 = __importDefault(require("mongoose"));
-const MovieModel = mongoose_1.default.model('movies', new mongoose_1.default.Schema({
+const movieSchema = new mongoose_1.default.Schema({
     title: {
         type: String,
+        required: true,
         trim: true,
         minlength: 1,
         maxlength: 50,
-        required: true,
     },
-    // genre: { type: mongoose.Schema.Types.ObjectId, ref: 'GenreModel' },
     genre: { type: Genre_1.genreSchema, required: true },
-    numberInStock: { type: Number, min: 0, max: 50, default: 0 },
-    dailyRentalRate: { type: Number, min: 0, max: 50, default: 0 },
-}));
+    numberInStock: { type: Number, min: 0, max: 50, default: 10 },
+    dailyRentalRate: { type: Number, min: 0, max: 50, default: 20 },
+});
+const MovieModel = mongoose_1.default.model('movies', movieSchema);
 exports.MovieModel = MovieModel;
 function validateMovie(movie) {
     const schema = joi_1.default.object({

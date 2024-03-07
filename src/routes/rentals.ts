@@ -1,7 +1,7 @@
 import { controller } from '../controllers/rentals';
 import { Router } from 'express';
 
-const rentalsRouter = Router();
+export const rentalsRouter = Router();
 
 rentalsRouter
   .route('/')

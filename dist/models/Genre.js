@@ -10,16 +10,14 @@ const joi_1 = __importDefault(require("joi"));
 exports.genreSchema = new mongoose_1.default.Schema({
     name: {
         type: String,
-        trim: true,
         required: true,
+        trim: true,
         minLength: 3,
         maxLength: 25,
     },
-    isActive: { type: Boolean, default: true },
-    date: { type: Date, default: Date.now },
 });
 // Compile and export schema into a model
-exports.GenreModel = mongoose_1.default.model('Genre', exports.genreSchema);
+exports.GenreModel = mongoose_1.default.model('genres', exports.genreSchema);
 // Function to validate Genre schema
 function validateGenre(genre) {
     const schema = joi_1.default.object({

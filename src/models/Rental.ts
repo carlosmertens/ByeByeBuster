@@ -7,9 +7,9 @@ const rentalSchema = new mongoose.Schema<IRental>({
     type: new mongoose.Schema({
       name: {
         type: String,
+        required: true,
         minlenght: 5,
         maxlength: 50,
-        required: true,
       },
       isGold: {
         type: Boolean,
@@ -17,9 +17,9 @@ const rentalSchema = new mongoose.Schema<IRental>({
       },
       phone: {
         type: String,
+        required: true,
         minlength: 5,
         maxlength: 50,
-        required: true,
       },
     }),
     required: true,
@@ -59,6 +59,8 @@ const rentalSchema = new mongoose.Schema<IRental>({
 const RentalModel = mongoose.model('rental', rentalSchema);
 
 function validateRental(rental: { customerId: string; movieId: string }) {
+  // TODO
+  // Find a solution to check for objectId
   const schema = Joi.object({
     customerId: Joi.string().required(),
     movieId: Joi.string().required(),

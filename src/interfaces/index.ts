@@ -1,14 +1,11 @@
 export interface IGenre {
   name: string;
-  isActive: boolean;
-  date: Date;
 }
 
 export interface ICustomer {
   name: string;
   phone: string;
   isGold: boolean;
-  createdOn: Date;
 }
 export interface IMovie {
   title: string;
