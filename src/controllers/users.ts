@@ -6,7 +6,7 @@ import { log } from '../logs';
 
 async function getAllUsers(req: Request, res: Response) {
   try {
-    const allUsers = UserModel.find({ name: 1 });
+    const allUsers = await UserModel.find();
     res.send(allUsers);
   } catch (err) {
     log.error(err);

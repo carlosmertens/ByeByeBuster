@@ -20,7 +20,7 @@ const logs_1 = require("../logs");
 function getAllUsers(req, res) {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            const allUsers = User_1.UserModel.find({ name: 1 });
+            const allUsers = yield User_1.UserModel.find();
             res.send(allUsers);
         }
         catch (err) {

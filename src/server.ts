@@ -9,6 +9,7 @@ import { customersRouter } from './routes/customers';
 import { moviesRouter } from './routes/movies';
 import { rentalsRouter } from './routes/rentals';
 import { usersRouter } from './routes/users';
+import { authRouter } from './routes/auth';
 
 // Initialize App
 const app = express();
@@ -32,6 +33,7 @@ app.use('/api/customers', customersRouter);
 app.use('/api/movies', moviesRouter);
 app.use('/api/rentals', rentalsRouter);
 app.use('/api/users', usersRouter);
+app.use('/api/auth', authRouter);
 
 // Port Listener
 app.listen(port, () => log.server(`Ready and listening on port ${port}`));
