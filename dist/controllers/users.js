@@ -41,7 +41,14 @@ function postNewUser(req, res) {
         const salt = yield bcrypt_1.default.genSalt(10);
         user.password = yield bcrypt_1.default.hash(user.password, salt);
         yield user.save();
-        res.send(lodash_1.default.pick(user, ['_id', 'name', 'email']));
+        const token = user.generateAuthToken();
+        res
+            .header('x-auth-token', token)
+            .send(lodash_1.default.pick(user, ['_id', 'name', 'email']));
     });
 }
+// token Maria
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWVlMjBhYzg1MjZiZDQ2YTJhY2RjMjMiLCJpYXQiOjE3MTAxMDQ3NDksImV4cCI6MTcxMDE5MTE0OX0.3OGBU62NNgQgUuMG23pKjSRQsqHqPYGnYHQolMKroVs
+// Token Pedro
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWVlMjY4ZjlhYTlhN2JkMTdlMTQzNjUiLCJpYXQiOjE3MTAxMDYyNTUsImV4cCI6MTcxMDE5MjY1NX0.7-6rvRf-3oFyVvcYCFKX8n4xLOJVgcpC1uDy0P3shgw
 exports.controller = { getAllUsers, postNewUser };

@@ -28,7 +28,17 @@ async function postNewUser(req: Request, res: Response) {
 
   await user.save();
 
-  res.send(_.pick(user, ['_id', 'name', 'email']));
+  const token = user.generateAuthToken();
+
+  res
+    .header('x-auth-token', token)
+    .send(_.pick(user, ['_id', 'name', 'email']));
 }
+
+// token Maria
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWVlMjBhYzg1MjZiZDQ2YTJhY2RjMjMiLCJpYXQiOjE3MTAxMDQ3NDksImV4cCI6MTcxMDE5MTE0OX0.3OGBU62NNgQgUuMG23pKjSRQsqHqPYGnYHQolMKroVs
+
+// Token Pedro
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWVlMjY4ZjlhYTlhN2JkMTdlMTQzNjUiLCJpYXQiOjE3MTAxMDYyNTUsImV4cCI6MTcxMDE5MjY1NX0.7-6rvRf-3oFyVvcYCFKX8n4xLOJVgcpC1uDy0P3shgw
 
 export const controller = { getAllUsers, postNewUser };

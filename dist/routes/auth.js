@@ -13,6 +13,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.authRouter = void 0;
+require("dotenv/config");
 const joi_1 = __importDefault(require("joi"));
 const bcrypt_1 = __importDefault(require("bcrypt"));
 const express_1 = require("express");
@@ -28,7 +29,8 @@ exports.authRouter.post('/', (req, res) => __awaiter(void 0, void 0, void 0, fun
     const validPassword = yield bcrypt_1.default.compare(req.body.password, user.password);
     if (!validPassword)
         return res.status(400).send('Invalid email or password.');
-    res.send({ status: true, message: 'User authorized' });
+    const token = user.generateAuthToken();
+    res.send(token);
 }));
 function validateAuth(req) {
     const schema = joi_1.default.object({

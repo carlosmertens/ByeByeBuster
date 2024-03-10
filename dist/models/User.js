@@ -6,7 +6,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.validateUser = exports.UserModel = void 0;
 const joi_1 = __importDefault(require("joi"));
 const mongoose_1 = __importDefault(require("mongoose"));
-const UserModel = mongoose_1.default.model('users', new mongoose_1.default.Schema({
+const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+const userSchema = new mongoose_1.default.Schema({
     name: { type: String, required: true, minlength: 1, maxlength: 30 },
     email: {
         type: String,
@@ -16,7 +17,15 @@ const UserModel = mongoose_1.default.model('users', new mongoose_1.default.Schem
         maxlength: 255,
     },
     password: { type: String, required: true, minlength: 4, maxlength: 1024 },
-}));
+});
+// Add method to generate Auth Token
+userSchema.methods.generateAuthToken = function () {
+    const token = jsonwebtoken_1.default.sign({ _id: this._id }, process.env.JWT_SECRET_KEY, {
+        expiresIn: '1 day',
+    });
+    return token;
+};
+const UserModel = mongoose_1.default.model('users', userSchema);
 exports.UserModel = UserModel;
 function validateUser(user) {
     // TODO: Look into joi-password-complexity

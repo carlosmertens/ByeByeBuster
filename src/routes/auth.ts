@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import Joi from 'joi';
 import bcrypt from 'bcrypt';
 import { Router } from 'express';
@@ -16,7 +17,9 @@ authRouter.post('/', async (req, res) => {
   const validPassword = await bcrypt.compare(req.body.password, user.password);
   if (!validPassword) return res.status(400).send('Invalid email or password.');
 
-  res.send({ status: true, message: 'User authorized' });
+  const token = user.generateAuthToken();
+
+  res.send(token);
 });
 
 function validateAuth(req: IUserAuth) {
