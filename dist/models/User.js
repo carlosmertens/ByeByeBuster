@@ -20,7 +20,10 @@ const userSchema = new mongoose_1.default.Schema({
     password: { type: String, required: true, minlength: 4, maxlength: 1024 },
     isAdmin: Boolean,
 });
-// Add method to generate Auth Token
+/**
+ * Method to generate Auth Token with JWT
+ * @returns token: JwtPayload
+ */
 userSchema.methods.generateAuthToken = function () {
     const token = jsonwebtoken_1.default.sign({ _id: this._id, isAdmin: this.isAdmin }, process.env.JWT_SECRET_KEY, {
         expiresIn: '1 day',

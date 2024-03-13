@@ -17,7 +17,10 @@ const userSchema = new mongoose.Schema<TUser>({
   isAdmin: Boolean,
 });
 
-// Add method to generate Auth Token
+/**
+ * Method to generate Auth Token with JWT
+ * @returns token: JwtPayload
+ */
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
     { _id: this._id, isAdmin: this.isAdmin },
