@@ -7,6 +7,7 @@ exports.validateUser = exports.UserModel = void 0;
 const joi_1 = __importDefault(require("joi"));
 const mongoose_1 = __importDefault(require("mongoose"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
+// Create schema to generate model
 const userSchema = new mongoose_1.default.Schema({
     name: { type: String, required: true, minlength: 1, maxlength: 30 },
     email: {
@@ -17,16 +18,19 @@ const userSchema = new mongoose_1.default.Schema({
         maxlength: 255,
     },
     password: { type: String, required: true, minlength: 4, maxlength: 1024 },
+    isAdmin: Boolean,
 });
 // Add method to generate Auth Token
 userSchema.methods.generateAuthToken = function () {
-    const token = jsonwebtoken_1.default.sign({ _id: this._id }, process.env.JWT_SECRET_KEY, {
+    const token = jsonwebtoken_1.default.sign({ _id: this._id, isAdmin: this.isAdmin }, process.env.JWT_SECRET_KEY, {
         expiresIn: '1 day',
     });
     return token;
 };
+// Create model for the user data colleaction
 const UserModel = mongoose_1.default.model('users', userSchema);
 exports.UserModel = UserModel;
+// Function to validate data from an incoming request
 function validateUser(user) {
     // TODO: Look into joi-password-complexity
     const schema = joi_1.default.object({

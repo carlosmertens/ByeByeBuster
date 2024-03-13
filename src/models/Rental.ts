@@ -1,8 +1,8 @@
 import Joi from 'joi';
 import mongoose from 'mongoose';
-import { IRental } from '../interfaces';
+import { TRental } from '../types';
 
-const rentalSchema = new mongoose.Schema<IRental>({
+const rentalSchema = new mongoose.Schema<TRental>({
   customer: {
     type: new mongoose.Schema({
       name: {

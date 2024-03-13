@@ -1,24 +1,19 @@
-import { Request } from 'express';
-import { JwtPayload } from 'jsonwebtoken';
+export type TGenre = { name: string };
 
-export interface IGenre {
-  name: string;
-}
-
-export interface ICustomer {
+export type TCustomer = {
   name: string;
   phone: string;
   isGold: boolean;
-}
+};
 
-export interface IMovie {
+export type TMovie = {
   title: string;
-  genre: IGenre;
+  genre: TGenre;
   numberInStock: number;
   dailyRentalRate: number;
-}
+};
 
-export interface IRental {
+export type TRental = {
   customer: {
     name: string;
     phone: string;
@@ -31,20 +26,17 @@ export interface IRental {
   dateOut: Date;
   dateReturned: Date;
   rentalFee: number;
-}
+};
 
-export interface IUser {
+export type TUser = {
   name: string;
   email: string;
   password: string;
+  isAdmin: boolean;
   generateAuthToken: () => string;
-}
+};
 
-export interface IUserAuth {
+export type TUserAuth = {
   email: string;
   password: string;
-}
-
-export interface RequestAuth extends Request {
-  user: string | JwtPayload;
-}
+};

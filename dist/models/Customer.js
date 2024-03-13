@@ -16,6 +16,7 @@ function validateCustomer(customer) {
     const schema = joi_1.default.object({
         name: joi_1.default.string().min(1).max(35).required(),
         phone: joi_1.default.string().min(6).max(20).required(),
+        isGold: joi_1.default.boolean(),
     });
     return schema.validate(customer);
 }

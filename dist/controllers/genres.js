@@ -1,28 +1,25 @@
 "use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.controller = void 0;
+// import { RequestUserAuth } from '../interfaces';
 const Genre_1 = require("../models/Genre");
 const logs_1 = require("../logs");
-const getAllGenres = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+/**
+ * Function controller. Will response all genres in the database sorted by descending name.
+ * @param req
+ * @param res
+ */
+const getAllGenres = async (req, res) => {
     try {
-        const genres = yield Genre_1.GenreModel.find().sort('name');
+        const genres = await Genre_1.GenreModel.find().sort('name');
         res.send(genres);
     }
     catch (err) {
         logs_1.log.error(err);
         res.status(500).send({ message: 'Internal Server Error' });
     }
-});
-const postNewGenre = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+};
+const postNewGenre = async (req, res) => {
     const { error } = (0, Genre_1.validateGenre)(req.body);
     if (error) {
         logs_1.log.error(error);
@@ -30,26 +27,27 @@ const postNewGenre = (req, res) => __awaiter(void 0, void 0, void 0, function* (
     }
     try {
         let genre = new Genre_1.GenreModel({ name: req.body.name });
-        genre = yield genre.save();
+        genre = await genre.save();
         res.status(201).send(genre);
     }
     catch (err) {
         logs_1.log.error(err);
         res.status(500).send({ message: 'Internal Server Error' });
     }
-});
-const getGenreById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+};
+const getGenreById = async (req, res) => {
     try {
-        const genre = yield Genre_1.GenreModel.findById(req.params.id);
+        const genre = await Genre_1.GenreModel.findById(req.params.id);
         res.send(genre);
     }
     catch (err) {
         logs_1.log.error(err);
         res.status(404).send({ message: 'Genre Not Found' });
     }
-});
+};
 const patchGenreById = (req, res) => {
     try {
+        // TODO:
         // 1. Retrieve requested id on db
         // 2 Modify any value changes
         // 3. Save modified genre
@@ -59,12 +57,12 @@ const patchGenreById = (req, res) => {
         res.status(404).send({ message: 'Genre Not Found' });
     }
 };
-const putGenreById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const putGenreById = async (req, res) => {
     const { error } = (0, Genre_1.validateGenre)(req.body);
     if (error)
         return res.status(400).send(error.message);
     try {
-        const genre = yield Genre_1.GenreModel.findByIdAndUpdate(req.params.id, {
+        const genre = await Genre_1.GenreModel.findByIdAndUpdate(req.params.id, {
             name: req.body.name,
         }, { new: true });
         res.send(genre);
@@ -73,17 +71,17 @@ const putGenreById = (req, res) => __awaiter(void 0, void 0, void 0, function* (
         logs_1.log.error(err);
         res.status(404).send({ message: 'Genre Not Found' });
     }
-});
-const deleteGenreById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+};
+const deleteGenreById = async (req, res) => {
     try {
-        const genre = yield Genre_1.GenreModel.findByIdAndDelete(req.params.id);
+        const genre = await Genre_1.GenreModel.findByIdAndDelete(req.params.id);
         res.send(genre);
     }
     catch (err) {
         logs_1.log.error(err);
         res.status(404).send({ message: 'Genre Not Found' });
     }
-});
+};
 exports.controller = {
     getAllGenres,
     postNewGenre,

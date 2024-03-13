@@ -1,9 +1,10 @@
 import Joi from 'joi';
 import mongoose from 'mongoose';
 import jwt from 'jsonwebtoken';
-import { IUser } from '../interfaces';
+import { TUser } from '../types';
 
-const userSchema = new mongoose.Schema<IUser>({
+// Create schema to generate model
+const userSchema = new mongoose.Schema<TUser>({
   name: { type: String, required: true, minlength: 1, maxlength: 30 },
   email: {
     type: String,
@@ -13,12 +14,13 @@ const userSchema = new mongoose.Schema<IUser>({
     maxlength: 255,
   },
   password: { type: String, required: true, minlength: 4, maxlength: 1024 },
+  isAdmin: Boolean,
 });
 
 // Add method to generate Auth Token
 userSchema.methods.generateAuthToken = function () {
   const token = jwt.sign(
-    { _id: this._id },
+    { _id: this._id, isAdmin: this.isAdmin },
     process.env.JWT_SECRET_KEY as string,
     {
       expiresIn: '1 day',
@@ -28,9 +30,11 @@ userSchema.methods.generateAuthToken = function () {
   return token;
 };
 
+// Create model for the user data colleaction
 const UserModel = mongoose.model('users', userSchema);
 
-function validateUser(user: IUser) {
+// Function to validate data from an incoming request
+function validateUser(user: TUser) {
   // TODO: Look into joi-password-complexity
   const schema = Joi.object({
     name: Joi.string().required().min(1).max(30),

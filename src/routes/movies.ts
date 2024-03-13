@@ -1,16 +1,17 @@
 import { Router } from 'express';
 import { controller } from '../controllers/movies';
+import { auth } from '../middlewares/auth';
 
 export const moviesRouter = Router();
 
 moviesRouter
   .route('/')
   .get(controller.getAllMovies)
-  .post(controller.postNewMovie);
+  .post(auth, controller.postNewMovie);
 
 moviesRouter
   .route('/:id')
   .get(controller.getMovieById)
-  .patch(controller.patchMovieById)
-  .put(controller.putMovieById)
-  .delete(controller.deleteMovieById);
+  .patch(auth, controller.patchMovieById)
+  .put(auth, controller.putMovieById)
+  .delete(auth, controller.deleteMovieById);

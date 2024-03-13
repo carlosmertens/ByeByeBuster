@@ -1,8 +1,14 @@
-import { RequestHandler } from 'express';
+import { Request, Response } from 'express';
+// import { RequestUserAuth } from '../interfaces';
 import { GenreModel, validateGenre } from '../models/Genre';
 import { log } from '../logs';
 
-const getAllGenres: RequestHandler = async (req, res) => {
+/**
+ * Function controller. Will response all genres in the database sorted by descending name.
+ * @param req
+ * @param res
+ */
+const getAllGenres = async (req: Request, res: Response) => {
   try {
     const genres = await GenreModel.find().sort('name');
     res.send(genres);
@@ -12,7 +18,7 @@ const getAllGenres: RequestHandler = async (req, res) => {
   }
 };
 
-const postNewGenre: RequestHandler = async (req, res) => {
+const postNewGenre = async (req: Request, res: Response) => {
   const { error } = validateGenre(req.body);
   if (error) {
     log.error(error);
@@ -29,7 +35,7 @@ const postNewGenre: RequestHandler = async (req, res) => {
   }
 };
 
-const getGenreById: RequestHandler = async (req, res) => {
+const getGenreById = async (req: Request, res: Response) => {
   try {
     const genre = await GenreModel.findById(req.params.id);
     res.send(genre);
@@ -39,8 +45,9 @@ const getGenreById: RequestHandler = async (req, res) => {
   }
 };
 
-const patchGenreById: RequestHandler = (req, res) => {
+const patchGenreById = (req: Request, res: Response) => {
   try {
+    // TODO:
     // 1. Retrieve requested id on db
     // 2 Modify any value changes
     // 3. Save modified genre
@@ -50,7 +57,7 @@ const patchGenreById: RequestHandler = (req, res) => {
   }
 };
 
-const putGenreById: RequestHandler = async (req, res) => {
+const putGenreById = async (req: Request, res: Response) => {
   const { error } = validateGenre(req.body);
   if (error) return res.status(400).send(error.message);
 
@@ -69,7 +76,7 @@ const putGenreById: RequestHandler = async (req, res) => {
   }
 };
 
-const deleteGenreById: RequestHandler = async (req, res) => {
+const deleteGenreById = async (req: Request, res: Response) => {
   try {
     const genre = await GenreModel.findByIdAndDelete(req.params.id);
     res.send(genre);

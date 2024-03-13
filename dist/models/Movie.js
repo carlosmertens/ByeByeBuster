@@ -16,16 +16,17 @@ const movieSchema = new mongoose_1.default.Schema({
         maxlength: 50,
     },
     genre: { type: Genre_1.genreSchema, required: true },
-    numberInStock: { type: Number, min: 0, max: 50, default: 10 },
-    dailyRentalRate: { type: Number, min: 0, max: 50, default: 20 },
+    numberInStock: { type: Number, min: 0, max: 100, default: 10 },
+    dailyRentalRate: { type: Number, min: 10, max: 50, default: 10 },
 });
 const MovieModel = mongoose_1.default.model('movies', movieSchema);
 exports.MovieModel = MovieModel;
 function validateMovie(movie) {
     const schema = joi_1.default.object({
         title: joi_1.default.string().min(1).max(50).required(),
-        // genre: Joi.isSchema(genreSchema),
         genreId: joi_1.default.string().required(),
+        numberInStock: joi_1.default.number().min(0).max(100),
+        dailyRentalRate: joi_1.default.number().min(10).max(50),
     });
     return schema.validate(movie);
 }

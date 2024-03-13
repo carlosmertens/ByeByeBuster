@@ -1,16 +1,17 @@
 import { Router } from 'express';
 import { controller } from '../controllers/genres';
+import { auth } from '../middlewares/auth';
 
 export const genresRouter = Router();
 
 genresRouter
   .route('/')
   .get(controller.getAllGenres)
-  .post(controller.postNewGenre);
+  .post(auth, controller.postNewGenre);
 
 genresRouter
   .route('/:id')
   .get(controller.getGenreById)
-  .patch(controller.patchGenreById)
-  .put(controller.putGenreById)
-  .delete(controller.deleteGenreById);
+  .patch(auth, controller.patchGenreById)
+  .put(auth, controller.putGenreById)
+  .delete(auth, controller.deleteGenreById);

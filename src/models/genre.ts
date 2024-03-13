@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 import Joi from 'joi';
-import { IGenre } from '../interfaces';
+import { TGenre } from '../types';
 
 // Create Schema for a new Collection
-export const genreSchema = new mongoose.Schema<IGenre>({
+export const genreSchema = new mongoose.Schema<TGenre>({
   name: {
     type: String,
     required: true,
@@ -14,10 +14,10 @@ export const genreSchema = new mongoose.Schema<IGenre>({
 });
 
 // Compile and export schema into a model
-export const GenreModel = mongoose.model<IGenre>('genres', genreSchema);
+export const GenreModel = mongoose.model<TGenre>('genres', genreSchema);
 
 // Function to validate Genre schema
-export function validateGenre(genre: IGenre) {
+export function validateGenre(genre: TGenre) {
   const schema = Joi.object({
     name: Joi.string().min(3).max(25).required(),
   });
