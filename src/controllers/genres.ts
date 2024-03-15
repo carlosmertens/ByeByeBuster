@@ -3,6 +3,7 @@ import { GenreModel, validateGenre } from '../models/Genre';
 import { log } from '../logs';
 
 const getAllGenres: RequestHandler = async (req, res, next) => {
+  // throw new Error('Error create to debug...');
   const genres = await GenreModel.find().sort('name');
 
   res.send(genres);

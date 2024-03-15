@@ -5,37 +5,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("dotenv/config");
 const express_1 = __importDefault(require("express"));
-const mongoose_1 = __importDefault(require("mongoose"));
-const cors_1 = __importDefault(require("cors"));
 const logs_1 = require("./logs");
-const logger_1 = require("./middlewares/logger");
-const errorHandler_1 = require("./middlewares/errorHandler");
-const genres_1 = require("./routes/genres");
-const customers_1 = require("./routes/customers");
-const movies_1 = require("./routes/movies");
-const rentals_1 = require("./routes/rentals");
-const users_1 = require("./routes/users");
-const auth_1 = require("./routes/auth");
+const routes_1 = require("./startup/routes");
+const db_1 = require("./startup/db");
+const middlewares_1 = require("./startup/middlewares");
+// throw new Error('new error');
+process.on('uncaughtException', ex => {
+    logs_1.log.error(ex.message, ex);
+    process.exit(1);
+});
+process.on('unhandledRejection', err => {
+    logs_1.log.error(err);
+    process.exit(1);
+});
 // Initialize App
 const app = (0, express_1.default)();
-const port = process.env.PORT || 8081;
-// Initialize Database connection
-mongoose_1.default
-    .connect(process.env.ATLAS_URI)
-    .then(() => logs_1.log.db('MongoDB connected'))
-    .catch(error => console.error(error));
+// MongoDB Atlas cloud
+(0, db_1.startDB)();
 // Middlewares
-app.use(express_1.default.json());
-app.use(express_1.default.urlencoded({ extended: true }));
-app.use((0, cors_1.default)());
-app.use(logger_1.logger);
+middlewares_1.startMiddlewares;
 // Routes
-app.use('/api/genres', genres_1.genresRouter);
-app.use('/api/customers', customers_1.customersRouter);
-app.use('/api/movies', movies_1.moviesRouter);
-app.use('/api/rentals', rentals_1.rentalsRouter);
-app.use('/api/users', users_1.usersRouter);
-app.use('/api/auth', auth_1.authRouter);
-app.use(errorHandler_1.errorHandler);
+(0, routes_1.startRoutes)(app);
 // Port Listener
+const port = process.env.PORT || 8081;
 app.listen(port, () => logs_1.log.server(`Ready and listening on port ${port}`));

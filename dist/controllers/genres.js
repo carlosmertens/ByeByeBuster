@@ -4,6 +4,7 @@ exports.controller = void 0;
 const Genre_1 = require("../models/Genre");
 const logs_1 = require("../logs");
 const getAllGenres = async (req, res, next) => {
+    // throw new Error('Error create to debug...');
     const genres = await Genre_1.GenreModel.find().sort('name');
     res.send(genres);
 };
