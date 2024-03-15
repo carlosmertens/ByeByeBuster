@@ -1,16 +1,15 @@
-import { Request, Response } from 'express';
+import { Request, Response, RequestHandler } from 'express';
 import { CustomerModel, validateCustomer } from '../models/Customer';
 import { log } from '../logs';
 
-async function getAllCustomers(req: Request, res: Response) {
+const getAllCustomers: RequestHandler = async (req, res, next) => {
   try {
     const allCustomers = await CustomerModel.find().sort('name');
     res.send(allCustomers);
   } catch (err) {
-    log.error(err);
-    res.status(500).send({ message: 'Internal Server Error' });
+    next(err);
   }
-}
+};
 
 async function postNewCustomer(req: Request, res: Response) {
   const { error } = validateCustomer(req.body);

@@ -9,6 +9,7 @@ const mongoose_1 = __importDefault(require("mongoose"));
 const cors_1 = __importDefault(require("cors"));
 const logs_1 = require("./logs");
 const logger_1 = require("./middlewares/logger");
+const errorHandler_1 = require("./middlewares/errorHandler");
 const genres_1 = require("./routes/genres");
 const customers_1 = require("./routes/customers");
 const movies_1 = require("./routes/movies");
@@ -35,5 +36,6 @@ app.use('/api/movies', movies_1.moviesRouter);
 app.use('/api/rentals', rentals_1.rentalsRouter);
 app.use('/api/users', users_1.usersRouter);
 app.use('/api/auth', auth_1.authRouter);
+app.use(errorHandler_1.errorHandler);
 // Port Listener
 app.listen(port, () => logs_1.log.server(`Ready and listening on port ${port}`));

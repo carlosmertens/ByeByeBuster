@@ -3,16 +3,15 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.controller = void 0;
 const Customer_1 = require("../models/Customer");
 const logs_1 = require("../logs");
-async function getAllCustomers(req, res) {
+const getAllCustomers = async (req, res, next) => {
     try {
         const allCustomers = await Customer_1.CustomerModel.find().sort('name');
         res.send(allCustomers);
     }
     catch (err) {
-        logs_1.log.error(err);
-        res.status(500).send({ message: 'Internal Server Error' });
+        next(err);
     }
-}
+};
 async function postNewCustomer(req, res) {
     const { error } = (0, Customer_1.validateCustomer)(req.body);
     if (error)

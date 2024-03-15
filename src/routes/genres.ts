@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { controller } from '../controllers/genres';
+import { asyncHandler } from '../middlewares/asyncHandler';
 import { auth } from '../middlewares/auth';
 import { adminAuth } from '../middlewares/admin';
 
@@ -7,12 +8,12 @@ export const genresRouter = Router();
 
 genresRouter
   .route('/')
-  .get(controller.getAllGenres)
-  .post(auth, controller.postNewGenre);
+  .get(asyncHandler(controller.getAllGenres))
+  .post(auth, asyncHandler(controller.postNewGenre));
 
 genresRouter
   .route('/:id')
-  .get(controller.getGenreById)
-  .patch(auth, controller.patchGenreById)
-  .put(auth, controller.putGenreById)
-  .delete(auth, adminAuth, controller.deleteGenreById);
+  .get(asyncHandler(controller.getGenreById))
+  .patch(auth, asyncHandler(controller.patchGenreById))
+  .put(auth, asyncHandler(controller.putGenreById))
+  .delete(auth, adminAuth, asyncHandler(controller.deleteGenreById));

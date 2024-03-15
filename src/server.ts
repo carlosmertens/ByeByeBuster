@@ -4,6 +4,7 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import { log } from './logs';
 import { logger } from './middlewares/logger';
+import { errorHandler } from './middlewares/errorHandler';
 import { genresRouter } from './routes/genres';
 import { customersRouter } from './routes/customers';
 import { moviesRouter } from './routes/movies';
@@ -34,6 +35,8 @@ app.use('/api/movies', moviesRouter);
 app.use('/api/rentals', rentalsRouter);
 app.use('/api/users', usersRouter);
 app.use('/api/auth', authRouter);
+
+app.use(errorHandler);
 
 // Port Listener
 app.listen(port, () => log.server(`Ready and listening on port ${port}`));
