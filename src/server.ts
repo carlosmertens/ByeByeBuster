@@ -1,9 +1,10 @@
 import 'dotenv/config';
 import express from 'express';
-import { log } from './logs';
-import { startRoutes } from './startup/routes';
-import { startDB } from './startup/db';
-import { startMiddlewares } from './startup/middlewares';
+import {log} from './logs';
+import {startRoutes} from './startup/routes';
+import {startDB} from './startup/db';
+import {startMiddlewares} from './startup/middlewares';
+import {startProd} from './startup/production';
 
 // throw new Error('new error');
 process.on('uncaughtException', ex => {
@@ -27,6 +28,9 @@ startMiddlewares;
 
 // Routes
 startRoutes(app);
+
+//
+startProd(app);
 
 // Port Listener
 const port = process.env.PORT || 8081;
