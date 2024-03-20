@@ -17,7 +17,6 @@ async function getAllUsers(req: Request, res: Response) {
 
 async function meUser(req: Request, res: Response) {
   const me = await UserModel.findById(req.user._id).select('-password -__v');
-
   res.send(me);
 }
 
