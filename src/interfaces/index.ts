@@ -1,5 +1,5 @@
-import { Request } from 'express';
-import { JwtPayload } from 'jsonwebtoken';
+import {Request} from 'express-serve-static-core';
+import {JwtPayload} from 'jsonwebtoken';
 
 export interface IGenre {
   name: string;
